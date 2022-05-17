@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+
+Name: com/enterprise_architecture/essential/widgets/EasReportTab.class
+Tab-Widget: True
+
+Name: com/enterprise_architecture/essential/widgets/AutoTextWidget.class
+Slot-Widget: True

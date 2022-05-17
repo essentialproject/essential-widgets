@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" author="true" classpath="commons-logging-1.1.3.jar:apache-mime4j-0.6.jar:httpmime-4.3.6.jar:commons-codec-1.6.jar:httpcore-4.4.jar:looks-2.1.3.jar:JGoLayout.jar:standard-extensions.jar:unicode_panel.jar:essential-xml-4.0.jar:httpclient-4.3.6.jar:protege.jar" destdir="doc" doctitle="The Essential Project - Essential Widgets" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.enterprise_architecture.essential.widgets" source="1.7" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="file:~/git/essential-widgets/doc/"/>
+        </javadoc>
+    </target>
+</project>

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Essential Viewer Tab Help</title>
+	<meta http-equiv="content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body style="font-family:sans-serif;font-size:0.8em;">
+<div style="width:800px; margin:0 auto;">
+<img src="essentialProjectLogo.jpg">
+<h2>Essential Viewer Tab</h2>
+<h3>Getting Started</h3>
+<p>This simple tab is used to send a snapshot of - <i>publish</i> - the Essential model to the Essential Viewer reporting service. The reporting service provides a web-based 
+environment for browsing the <i>published</i> model and viewing the results of 
+various reports that are the result of complex analysis of the model.</p>
+
+<h3>Using the Viewer Tab</h3>
+<p>
+The Architecture Report Tab is very simple to use.</p>
+<p>To add it to your Protégé project, select Project-&gt;Configure... and select the checkbox for the EasReportTab entry in the list. This Tab will then be added to your project.</p>
+<p>Once it has been added to your project, the two 
+main controls of the Tab are:
+<ul>
+	<li><b>Essential Viewer:</b>. This specifies 
+	the location, on the network, of the Essential Viewer Report Service to which you wish to publish. 
+	This should already be configured to the location of your reporting service 
+	but you can override the configured URL if you wish to publish your 
+	model-snapshot to an alternative reporting service.</li>
+	<li><i>Optionally and if required by the 
+	Report Service:</i>
+	<ul>
+		<li><i><b>Username: </b>Your user name for accessing the Report Service</i></li>
+		<li><i><b>Password: </b>Your password for accessing the Report Service</i></li>
+	</ul><i>The tab supports basic and form-based login to the Report Service.</i>
+	</li>
+	<li><b>Send Graph Images</b>. If set, creates a screenshot of each graphical model in the Protege repository and sends it to the Essential Viewer.</li>
+	<li><b>Publish Repository</b>. When you push this 
+	button, the Tab will:
+	<ul>
+		<li>Take a snapshot of your enterprise 
+		architecture model.</li>
+		<li>Check for authentication requirements and login using your credentials, if needed.</li>
+		<li>Send this snapshot to the reporting 
+		service, defined by the URL. If the Tab cannot make a connection to the 
+		Report Service, it will retry up to 3 times before giving up and 
+		reporting a failure.</li>
+	</ul>
+	</li>
+</ul>
+</p>
+<p>Status messages are shown when the sending 
+process has completed. Depending on the size of your model, this make take a few 
+minutes.</p>
+<p>In the unlikely event of a failure, a message will be shown.</p>
+<ul>
+	<li>That the tab failed to send the message - 
+	in which case the Tab has failed to successfully invoke the Essential 
+	Report Service, or that the service itself has encountered a problem. The 
+	likely reasons for a failure are:
+	<ul>
+		<li>The server at the specified URL is not 
+	responding. The server is unavailable, please contact your system 
+	administrator.</li>
+		<li>The URL of the Essential Viewer Report Service has been 
+	incorrectly specified. The server is responding but cannot find the 
+	specified service. Check your URL details.</li>
+		<li>A user name and password was required in 
+	order to use the Report Service. If you have provided a user name and 
+	password, please check that you have correctly entered your details.</li>
+	</ul>
+	</li>
+	<li>That the tab has failed to take a snapshot 
+	of the model.</li>
+</ul>
+<p>In any of these cases, please contact your system 
+administrator.</p>
+
+<h3>Configuration</h3>
+<p>
+The tab is configured by its properties file, <tt>reporttab.properties</tt> that is located in the plugin folder. You can adjust the GUI text and some other look and feel elements.</p>
+<p>The Essential Architecture Manager Report Tab has the 
+following configuration options:
+<ul>
+	<li>The default URL for the Essential Viewer 
+	Report Service: <tt>reporttab.url.default</tt></li>
+	<li>The length (in columns) of the URL 
+	control: <tt>reporttab.url.columns</tt></li>
+	<li>The name of the Tab as it appears in 
+	Protégé: <tt>reporttab.tab.label</tt></li>
+	<li>The suffix to use to contact the image receiver service, by default "Images":
+	<tt>reporttab.images.url</tt></li>
+	<li>A java.text.SimpleDateFormat formatting pattern to control the formatting of the timestamp tag value in the report XML snapshot. This must be a valid
+	SimpleDateFormat pattern string which must result in a valid XSD DateTime value:
+	<tt>reporttab.xml.datetimeformat</tt>. e.g. <tt>yyyy-MM-dd'T'hh:mm:ss</tt><br/>By default a <tt>YYYY-MM-DDThh:mm:ss</tt> formatting is produced.</li>
+</ul>
+</p>
+
+<h3>Enabling the Tab</h3>
+<p>Select the Tab from the Project-&gt;Configure... 
+menu by choosing the EasReportTab entry from the list of Tab plug-ins.</p>
+
+<h3>Generic XML Export from Protege</h3>
+<p>The EasReportTab plug-in can be used in any Protege project as a generic
+XML export capability and will export all instances that are defined in your project. To receive the XML, all
+you need to do is provide an HTTP server application, e.g. a Servlet, that can receive the XML document via an HTTP Post.</p>
+<p>Use the Essential Viewer field to specify the URL of your HTTP Server.</p>
+<p>The XML export is formatted according to the schema of the Protege Experimental XML format, with some extensions by the Essential Project team.</p>
+<p><img border ="0" src="auto_layout.png" width="383" height="71" style="float:right"></img>From version 2.4, a snapshot of the graphical models is sent to Essential Viewer as a set of image files. When running Protege in Multi-User mode, an option to select the preferred automatic layout of the images is shown. The widget will use the selected auto layout as Protege does not store the layout properties of the GraphWidgets in Multi-User mode for well documented reasons.</p>
+
+<h3>Essential AutoText Widget</h3>
+<h4>Purpose</h4>
+<p>
+When the Essential Architecture Meta Model was first implemented in Protégé, we found that many of the fields that
+we needed, e.g. the names of many artefacts such as Architectures needed to be specified by hand but always followed a pattern based on 
+the values of other slots on a form, which seriously affected productivity. To solve this issue, we created the AutoText widget for String Slots to
+automatically generate string values from a pattern based on the values of other slots and static strings, e.g. if we need a slot to have the value
+which is made up from the value of a slot, SlotA, the string " and " and the value of SlotB, the AutoText widget enables us to define a pattern, such
+such that if SlotA = 'cats' and SlotB = 'dogs', we get a value in the AutoText of 'cats and dogs'. 
+</p>
+
+<h4>Installation</h4>
+<p>
+The AutoText widget is installed as part of the Essential Architecture Manager Report Tab plug-in, in the Essential Widgets package
+of the plug-in. To check that it is correctly installed, open the Protégé Forms tab, select a field on the form that is currently using a TextFieldWidget
+and use the drop-down box to select an alternative slot widget. The AutoText Widget should be in the list of options.
+</p>
+<h3>How to configure the AutoText</h3>
+<h4>Creating the AutoText pattern</h4>
+<p>
+The AutoText widget works as a Slot Widget for any String slot in your project. To use the AutoText for one of your String slots, 
+	<ul>
+		<li>Go to the Form for the class that is going to have the AutoText applied to it</li>
+		<li>Select the field for the string that will be AutoText</li>
+		<li>Choose the AutoText widget from the list of widget options for this field.</li>
+	</ul>
+Having selected to use the AutoText widget, double click on the field to open the configuration panel. Click on the AutoText Configuration
+tab of the configuration panel (see screenshot, below). This is where you define the pattern that will be used to create your string values automatically. You can build your
+pattern from up to 5 slot values and 6 static strings - unique to this field on this class form.
+	<ul>
+		<li>Fill in the static string values to use - all are optional. This value will be used in every AutoText that is generated for this field. E.g. if you
+		set the prefix to "Protege", every AutoText instance for this field on this form, will start with "Protege"</li>
+		<li>Select the slots to use in the pattern. This will use the string value shown in that slot to build the AutoText and is updated dynamically
+		as this slot value changes. In the case where you choose an Instance Slot, the value that is used depends on what the display slot is for that instance.</li>
+	</ul> 
+<img border ="0" src="autoText_specification.png" width="481" height="359"></img>
+
+Once you are happy with your AutoText pattern, click OK. Your selected field - on the form for the selected class, will now be automatically updated according to the 
+pattern that you have defined.
+</p>
+
+<h4>What sort of Slots can be used in the AutoText pattern?</h4>
+<p>
+Any slot-type can be used as part of the AutoText pattern, including:
+	<ul>
+		<li>Strings</li>
+		<li>Integers and Float</li>
+		<li>Instances</li>
+		<li>Symbols</li>
+		<li>Classes</li>
+		<li>Booleans</li>
+		<li>Any</li>
+		<li>Strings that are themselves defined by an AutoText Widget.</li>
+	</ul>
+Slots that have multiple cardinality (e.g. Instance slots that manage lists of instances) are not recommended, however, as their displayed values are unlikely to be useful as part of your pattern.
+
+</p>
+<h4>Known Issues</h4>
+<p>
+The AutoText widget has been designed to work from the Graphical User Interface forms, as an aid for users when completing class Instance forms. It does not use any listeners on the Protégé project knowledge-base.
+This means that fields using the AutoText widget are only updated when the form for the Instance is visible - either in the Instance Browser or as a pop-up form. In scenarios where Instances have been created via the 
+Protégé API, e.g. via an import from an external repository, the AutoText pattern will not be applied until the Instance is viewed or browsed.
+</p>
+<p>
+Very occasionally the AutoText may not update when an Instance is viewed. In this case, update any of the fields on the form - the description field is useful - to force an update event, and the AutoText will operate as expected.
+</p>
+
+<h3>End user licensing</h3>
+<p>Copyright &copy;2006-2020 Enterprise Architecture Solutions Ltd. This Protege plug-in is part of Essential Architecture Manager, the Essential Architecture Meta Model and The Essential Project. </p>
+<p>
+Essential Architecture Manager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
+</p>
+<p>
+Essential Architecture Manager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  
+</p>
+<p>
+You should have received a copy of the GNU General Public License along with Essential Architecture Manager. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses.</a> </p>
+
+<p><i>Powered by the:</i></p>
+<img src="essentialProjectLogo.jpg"/>
+<p>version: 4.2.1<br/>
+released: January 9 2020</p>
+<h3>For more information see:</h3>
+<ul>
+<li><a href="http://www.enterprise-architecture.org">Essential Project website: http://www.enterprise-architecture.org</a></li>
+<li><a href="http://www.enterprise-architecture.com">EAS website: http://www.enterprise-architecture.com</a></li>
+</ul>
+<p>&copy;2006-2020 Enterprise Architecture Solutions Ltd</p>
+<p>Essential Viewer Tab is part of the Essential Project, sponsored by EAS.</p>
+</div>
+</body>
+</html>

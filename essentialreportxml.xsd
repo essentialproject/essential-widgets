@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://protege.stanford.edu/xml" xmlns="http://protege.stanford.edu/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:annotation>
+        <xs:documentation xml:lang="en">XML Schema for Essential repository derived from Protege experimental XML schema</xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="knowledge_base" type="KnowledgeBaseType"/>
+
+    <xs:complexType name="KnowledgeBaseType">
+        <xs:sequence>
+            <xs:element name="timestamp" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Optional timestamp tag to indicate dateTime when the XML document was generated</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="repository" type="repositoryMetadataType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="user" type="userMetadataType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="tenant" type="tenantMetadataType" minOccurs="0" maxOccurs="1"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="class"/>
+                <xs:element ref="slot"/>
+                <xs:element ref="facet"/>
+                <xs:element ref="simple_instance"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:simpleType name="FrameNameType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:complexType name="InstanceType">
+        <xs:sequence>
+            <xs:element name="name" type="FrameNameType"/>
+            <xs:element name="type" type="FrameNameType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="supertype" type="FrameNameType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="own_slot_value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="class">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="InstanceType">
+                    <xs:sequence>
+                        <xs:element name="superclass" type="FrameNameType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="template_slot" type="FrameNameType" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element ref="template_facet_value" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="slot">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="InstanceType">
+                    <xs:sequence>
+                        <xs:element name="superslot" type="FrameNameType" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="facet">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="InstanceType"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="simple_instance">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="InstanceType"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="own_slot_value">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="slot_reference" type="FrameNameType"/>
+                <xs:element ref="value" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="template_facet_value">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="slot_reference" type="FrameNameType"/>
+                <xs:element name="facet_reference" type="FrameNameType"/>
+                <xs:element ref="value" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="ValueType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="boolean"/>
+            <xs:enumeration value="float"/>
+            <xs:enumeration value="integer"/>
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="class"/>
+            <xs:enumeration value="slot"/>
+            <xs:enumeration value="facet"/>
+            <xs:enumeration value="simple_instance"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="value">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="value_type" type="ValueType" use="required"> </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="repositoryMetadataType">
+        <xs:sequence>
+            <xs:element name="repositoryID" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="userMetadataType">
+        <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tenantMetadataType">
+        <xs:sequence>
+            <xs:element name="tenantID" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

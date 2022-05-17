@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Packaging Generator" default="_packaging_generation_">
+<target name="_packaging_generation_" depends="N65540"/>
+<target name="N65540" description="easArchReport.jar">
+<jar destfile="easArchReport.jar" manifest="MANIFEST.MF">
+<zipfileset dir="." prefix="com/eas/essential/images">
+<include name="easLogoIcy_3_300x153.jpg"/>
+</zipfileset>
+<zipfileset dir="bin" includes="**/*.*"/>
+</jar>
+</target>
+</project>
